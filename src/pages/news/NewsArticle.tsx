@@ -21,6 +21,7 @@ const NewsArticle = () => {
   const items = [
     { id: 1, name: "Title" },
     { id: 2, name: "Date" },
+    { id: 3, name: "Sport" },
   ];
   const [selectOption, setSelectOption] = useState("");
   const [filterOption, setFilterOption] = useState("");
@@ -58,12 +59,14 @@ const NewsArticle = () => {
     fetchNews();
   }, [isLoading, news, authenticated, preferenceState]);
 
-  function sortNewsByFilterOption(news:any, filterOption) {
+  function sortNewsByFilterOption(news: any, filterOption) {
     return [...news].sort((a, b) => {
       if (filterOption === "Title") {
         return a.title.localeCompare(b.title);
       } else if (filterOption === "Date") {
         return new Date(b.date).getTime() - new Date(a.date).getTime();
+      } else if (filterOption === "Sport") {
+        return a.sport.name.localeCompare(b.sport.name);
       }
       return 0;
     });
@@ -94,23 +97,23 @@ const NewsArticle = () => {
     }
   };
 
-  const handleSelect = (selectedItem:any) => {
+  const handleSelect = (selectedItem: any) => {
     setSelectOption(selectedItem.name);
     setIsOpen(false);
   };
-  const handleFilter = (selectedItem:any) => {
+  const handleFilter = (selectedItem: any) => {
     setFilterOption(selectedItem);
   };
   const sortedNews = sortNewsByFilterOption(resultantNews, filterOption);
   return (
     <>
-      <div className="bg-gradient-to-br from-blue-400 to-teal-400 dark:bg-gradient-to-b dark:from-slate-700 dark:to-zinc-800 rounded ">
+      <div className="bg-gradient-to-br from-blue-400 to-teal-400 dark:bg-gradient-to-b dark:from-slate-700 dark:to-zinc-800 rounded">
         <Tab.Group defaultIndex={0} onChange={handleTabChange}>
-          <div className="flex flex-col md:flex-row justify-between">
-            <Tab.List className="flex p-4 pb-2 space-x-4">
+          <div className="flex justify-between">
+            <Tab.List className="flex p-4 pb-2  overflow-x-auto">
               <Tab
                 key={0}
-                className={`px-6 py-2 text-sm font-medium   rounded focus:outline-none ${
+                className={`px-4 py-2 mr-3 text-sm font-medium rounded focus:outline-none ${
                   selectedTabIndex === 0
                     ? "bg-purple-500 text-white dark:bg-white dark:text-gray-500"
                     : "bg-gray-100 text-gray-600 hover:text-blue-500 dark:bg-slate-800 dark:text-white dark:hover:text-blue-300"
@@ -121,7 +124,7 @@ const NewsArticle = () => {
               {filteredSports.map((sport: any, index: number) => (
                 <Tab
                   key={sport.id}
-                  className={`px-6 py-3 text-sm font-medium   rounded focus:outline-none ${
+                  className={`px-4 py-2 mr-3 text-sm font-medium   rounded focus:outline-none ${
                     selectedTabIndex === index + 1
                       ? "bg-purple-500 text-white dark:bg-white dark:text-gray-500"
                       : "bg-gray-100 text-gray-600 hover:text-blue-500 dark:bg-slate-800 dark:text-white dark:hover:text-blue-300"
@@ -131,11 +134,12 @@ const NewsArticle = () => {
                 </Tab>
               ))}
             </Tab.List>
-            <div className="flex p-4 pb-2 space-x-4">
+
+            <div className="flex items-center p-5 pb-2 ">
               <div className="relative">
                 <button
                   onClick={() => setIsOpen(!isOpen)}
-                  className="inline-flex px-5 py-3 text-sm font-medium rounded focus:outline-none bg-gray-100 text-gray-600 hover:text-blue-500 dark:bg-slate-800 dark:text-white dark:hover:text-blue-300"
+                  className="inline-flex mr-2 px-4 py-4 text-sm font-medium rounded focus:outline-none bg-gray-100 text-gray-600 hover:text-blue-500 dark:bg-slate-800 dark:text-white dark:hover:text-blue-300"
                 >
                   {selectOption || "SortBy"}
                   <ChevronDownIcon
@@ -148,7 +152,7 @@ const NewsArticle = () => {
                     {items.map((item) => (
                       <div
                         key={item.id}
-                        className="cursor-pointer px-8 py-3 hover:bg-gray-100 text-sm dark:hover:bg-gray-700"
+                        className="cursor-pointer px-7 py-3 hover:bg-gray-100 text-sm dark:hover:bg-gray-700"
                         onClick={() => handleSelect(item)}
                       >
                         {item.name}
@@ -157,8 +161,12 @@ const NewsArticle = () => {
                   </div>
                 )}
               </div>
-              <span className="px-3 py-3 bg-gray-100 rounded dark:bg-slate-800" onClick={() => handleFilter(selectOption)}>
-                <FunnelIcon className="h-5 w-5"  />
+
+              <span
+                className="px-3 py-4 bg-gray-100 rounded dark:bg-slate-800"
+                onClick={() => handleFilter(selectOption)}
+              >
+                <FunnelIcon className="h-5 w-5" />
               </span>
             </div>
           </div>
@@ -166,51 +174,15 @@ const NewsArticle = () => {
           <Tab.Panels>
             <Tab.Panel key={0}>
               <div
-                className="p-4 overflow-y-auto"
-                style={{ maxHeight: "calc(100vh - 150px)" }}
+                className="p-4 overflow-y-auto mb-2"
+                style={{ maxHeight: "calc(112vh - 150px)" }}
               >
-                {sortedNews.map((news: any) => (
-                  <div
-                    key={news.id}
-                    className="flex p-4 m-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-                  >
-                    <div className="flex-shrink-0 pr-4">
-                      <img
-                        src={news.thumbnail}
-                        alt="Thumbnail"
-                        className="w-24 h-24 object-cover rounded "
-                      />
-                    </div>
-                    <div className="flex-grow">
-                      <h5 className="mb-1 text-sm text-gray-600 dark:text-gray-400 font-medium">
-                        {news.sport.name}
-                      </h5>
-                      <h2 className="text-lg font-bold">{news.title}</h2>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">
-                        {news.summary}
-                      </p>
-                      <div className="flex justify-between">
-                        <p className="text-sm text-gray-500 dark:text-gray-300">
-                          {formattedDate(news.date)}
-                        </p>
-                        <Link to={`/articles/${news.id}`}>
-                          <h5 className="text-sm text-gray-500 dark:text-gray-300 hover:text-blue-400">
-                            Read more...
-                          </h5>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Tab.Panel>
-            {filteredSports.map((sport: any) => (
-              <Tab.Panel key={sport.id}>
-                <div
-                  className="p-4 overflow-y-auto"
-                  style={{ maxHeight: "calc(100vh - 150px)" }}
-                >
-                  {sortedNews.map((news: any) => (
+                {sortedNews.length === 0 ? (
+                  <p className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <div className="flex-grow">No Trending News Found</div>
+                  </p>
+                ) : (
+                  sortedNews.map((news: any) => (
                     <div
                       key={news.id}
                       className="flex p-4 m-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
@@ -242,7 +214,55 @@ const NewsArticle = () => {
                         </div>
                       </div>
                     </div>
-                  ))}
+                  ))
+                )}
+              </div>
+            </Tab.Panel>
+            {filteredSports.map((sport: any) => (
+              <Tab.Panel key={sport.id}>
+                <div
+                  className="p-4 overflow-y-auto"
+                  style={{ maxHeight: "calc(112vh - 150px)" }}
+                >
+                  {sortedNews.length === 0 ? (
+                    <p className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                      <div className="flex-grow">No Trending News Found</div>
+                    </p>
+                  ) : (
+                    sortedNews.map((news: any) => (
+                      <div
+                        key={news.id}
+                        className="flex p-4 m-1 bg-white border border-gray-200 rounded-lg shadow hover-bg-gray-100 dark-bg-gray-800 dark-border-gray-700 dark-hover-bg-gray-700"
+                      >
+                        <div className="flex-shrink-0 pr-4">
+                          <img
+                            src={news.thumbnail}
+                            alt="Thumbnail"
+                            className="w-24 h-24 object-cover rounded"
+                          />
+                        </div>
+                        <div className="flex-grow">
+                          <h5 className="mb-1 text-sm text-gray-600 dark-text-gray-400 font-medium">
+                            {news.sport.name}
+                          </h5>
+                          <h2 className="text-lg font-bold">{news.title}</h2>
+                          <p className="text-gray-600 dark-text-gray-400 text-sm">
+                            {news.summary}
+                          </p>
+                          <div className="flex justify-between">
+                            <p className="text-sm text-gray-500 dark-text-gray-300">
+                              {formattedDate(news.date)}
+                            </p>
+                            <Link to={`/articles/${news.id}`}>
+                              <h5 className="text-sm text-gray-500 dark-text-gray-300 hover-text-blue-400">
+                                Read more...
+                              </h5>
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </Tab.Panel>
             ))}

@@ -8,6 +8,7 @@ import { fetchTeams } from "../../context/teams/actions";
 import { useNewsDispatch } from "../../context/news/context";
 import { fetchNews } from "../../context/news/actions";
 import NewsArticle from "./NewsArticle";
+import Favourites from "./Favourites";
 import { Outlet } from "react-router-dom";
 import ErrorBoundary from "../../components/ErrorBoundary";
 
@@ -27,15 +28,23 @@ const News = () => {
   }, [dispatchSports, dispatchTeams, disptachPreferences, disptachNews]);
   return (
     <>
-      <div>
-        <h2 className="text-xl font-bold m-2 ml-1 ">Trending News</h2>
-        <ErrorBoundary>
-          <Suspense
-            fallback={<div className="suspense-loading">Loading...</div>}
-          >
-            <NewsArticle />
-          </Suspense>
-        </ErrorBoundary>
+    <div>
+    <h2 className="text-xl font-bold m-2 mt-3">Trending News</h2>
+    </div>
+      
+      <div className="flex h-screen w-full items-stretch">
+        <div className="w-3/4" >
+          <ErrorBoundary>
+            <Suspense
+              fallback={<div className="suspense-loading">Loading...</div>}
+            >
+              <NewsArticle />
+            </Suspense>
+          </ErrorBoundary>
+        </div>
+        <div className="w-1/4 ml-2 flex">
+          <Favourites />
+        </div>
       </div>
       <Outlet />
     </>
