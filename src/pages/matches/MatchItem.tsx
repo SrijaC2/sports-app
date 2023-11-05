@@ -45,7 +45,7 @@ const MatchItem: React.FC<MatchItemProps> = ({ matchId }) => {
   const { sportName, location, teams, score } = match;
 
   return (
-    <div className="bg-gradient-to-b from-purple-500 to-blue-500 text-white rounded-md p-3 shadow-md dark:bg-gradient-to-b dark:from-slate-700 dark:to-zinc-700 dark:text-white">
+    <div className="bg-gradient-to-b from-purple-500 to-blue-500 text-white rounded-md p-3 shadow-md dark:bg-gradient-to-b dark:from-slate-700 dark:to-slate-900 dark:text-white">
       <div className="flex justify-between">
         <h2 className="text-sm font-semibold mb-1">{sportName}</h2>
         <button

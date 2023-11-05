@@ -4,6 +4,8 @@ import { Tab } from "@headlessui/react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { usePreferencesState } from "../../context/users/context";
+import { FunnelIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const NewsArticle = () => {
   const State: any = useNewsState();
@@ -16,6 +18,15 @@ const NewsArticle = () => {
   const [resultantNews, setResultantNews] = useState(news);
   const authenticated = !!localStorage.getItem("userData");
 
+  const items = [
+    { id: 1, name: "Title" },
+    { id: 2, name: "Date" },
+  ];
+  const [selectOption, setSelectOption] = useState("");
+  const [filterOption, setFilterOption] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  console.log(filterOption);
+
   const fetchNews = () => {
     if (!authenticated) {
       setResultantNews(news);
@@ -27,11 +38,12 @@ const NewsArticle = () => {
       ) {
         const userSports = preferenceState.preferences.preferredSport;
         if (userSports.length) {
-          const filterNews = news.filter((news:any) =>
+          const filterNews = news.filter((news: any) =>
             userSports.includes(news.sport.name)
           );
+
           setResultantNews(filterNews);
-          const filterUserSports = sports.filter((sport:any) =>
+          const filterUserSports = sports.filter((sport: any) =>
             userSports.includes(sport.name)
           );
           setfilteredSports(filterUserSports);
@@ -46,6 +58,17 @@ const NewsArticle = () => {
     fetchNews();
   }, [isLoading, news, authenticated, preferenceState]);
 
+  function sortNewsByFilterOption(news:any, filterOption) {
+    return [...news].sort((a, b) => {
+      if (filterOption === "Title") {
+        return a.title.localeCompare(b.title);
+      } else if (filterOption === "Date") {
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      }
+      return 0;
+    });
+  }
+
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
   }
@@ -53,15 +76,15 @@ const NewsArticle = () => {
     return <span>{errorMessage}</span>;
   }
 
-  function filterNewsBySport(sportID:any) {
-    return news.filter((item:any) => item.sport.id === sportID);
+  function filterNewsBySport(sportID: any) {
+    return news.filter((item: any) => item.sport.id === sportID);
   }
-  function formattedDate(isoDate:string) {
+  function formattedDate(isoDate: string) {
     const date = new Date(isoDate);
     return date.toDateString();
   }
 
-  const handleTabChange = (index:number) => {
+  const handleTabChange = (index: number) => {
     setSelectedTabIndex(index);
     if (index == 0) {
       fetchNews();
@@ -70,41 +93,83 @@ const NewsArticle = () => {
       setResultantNews(filteredNews);
     }
   };
+
+  const handleSelect = (selectedItem:any) => {
+    setSelectOption(selectedItem.name);
+    setIsOpen(false);
+  };
+  const handleFilter = (selectedItem:any) => {
+    setFilterOption(selectedItem);
+  };
+  const sortedNews = sortNewsByFilterOption(resultantNews, filterOption);
   return (
     <>
-      <div className="bg-gradient-to-br from-blue-400 to-teal-400 dark:bg-gradient-to-b dark:from-slate-700 dark:to-zinc-800 rounded">
+      <div className="bg-gradient-to-br from-blue-400 to-teal-400 dark:bg-gradient-to-b dark:from-slate-700 dark:to-zinc-800 rounded ">
         <Tab.Group defaultIndex={0} onChange={handleTabChange}>
-          <Tab.List className="flex p-4 pb-2 space-x-4">
-            <Tab
-              key={0}
-              className={`px-6 py-2 text-sm font-medium   rounded focus:outline-none ${
-                selectedTabIndex === 0
-                  ? "bg-purple-500 text-white dark:bg-white dark:text-gray-500"
-                  : "bg-gray-100 text-gray-600 hover:text-blue-500 dark:bg-slate-800 dark:text-white dark:hover:text-blue-300"
-              }`}
-            >
-              Your News
-            </Tab>
-            {filteredSports.map((sport:any, index:number) => (
+          <div className="flex flex-col md:flex-row justify-between">
+            <Tab.List className="flex p-4 pb-2 space-x-4">
               <Tab
-                key={sport.id}
-                className={`px-6 py-3 text-sm font-medium   rounded focus:outline-none ${
-                  selectedTabIndex === index + 1
+                key={0}
+                className={`px-6 py-2 text-sm font-medium   rounded focus:outline-none ${
+                  selectedTabIndex === 0
                     ? "bg-purple-500 text-white dark:bg-white dark:text-gray-500"
                     : "bg-gray-100 text-gray-600 hover:text-blue-500 dark:bg-slate-800 dark:text-white dark:hover:text-blue-300"
                 }`}
               >
-                {sport.name}
+                Your News
               </Tab>
-            ))}
-          </Tab.List>
+              {filteredSports.map((sport: any, index: number) => (
+                <Tab
+                  key={sport.id}
+                  className={`px-6 py-3 text-sm font-medium   rounded focus:outline-none ${
+                    selectedTabIndex === index + 1
+                      ? "bg-purple-500 text-white dark:bg-white dark:text-gray-500"
+                      : "bg-gray-100 text-gray-600 hover:text-blue-500 dark:bg-slate-800 dark:text-white dark:hover:text-blue-300"
+                  }`}
+                >
+                  {sport.name}
+                </Tab>
+              ))}
+            </Tab.List>
+            <div className="flex p-4 pb-2 space-x-4">
+              <div className="relative">
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="inline-flex px-5 py-3 text-sm font-medium rounded focus:outline-none bg-gray-100 text-gray-600 hover:text-blue-500 dark:bg-slate-800 dark:text-white dark:hover:text-blue-300"
+                >
+                  {selectOption || "SortBy"}
+                  <ChevronDownIcon
+                    className="ml-2 -mr-1 h-5 w-5 text-violet-400 hover:text-violet-300 dark:bg-slate-800 dark:text-white"
+                    aria-hidden="true"
+                  />
+                </button>
+                {isOpen && (
+                  <div className="absolute right-0 mt-2 py-2 bg-white border border-gray-300 rounded shadow-lg dark:bg-slate-800 dark:text-white">
+                    {items.map((item) => (
+                      <div
+                        key={item.id}
+                        className="cursor-pointer px-8 py-3 hover:bg-gray-100 text-sm dark:hover:bg-gray-700"
+                        onClick={() => handleSelect(item)}
+                      >
+                        {item.name}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <span className="px-3 py-3 bg-gray-100 rounded dark:bg-slate-800" onClick={() => handleFilter(selectOption)}>
+                <FunnelIcon className="h-5 w-5"  />
+              </span>
+            </div>
+          </div>
+
           <Tab.Panels>
             <Tab.Panel key={0}>
               <div
                 className="p-4 overflow-y-auto"
                 style={{ maxHeight: "calc(100vh - 150px)" }}
               >
-                {resultantNews.map((news: any) => (
+                {sortedNews.map((news: any) => (
                   <div
                     key={news.id}
                     className="flex p-4 m-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
@@ -113,7 +178,7 @@ const NewsArticle = () => {
                       <img
                         src={news.thumbnail}
                         alt="Thumbnail"
-                        className="w-24 h-24 object-cover "
+                        className="w-24 h-24 object-cover rounded "
                       />
                     </div>
                     <div className="flex-grow">
@@ -139,13 +204,13 @@ const NewsArticle = () => {
                 ))}
               </div>
             </Tab.Panel>
-            {filteredSports.map((sport:any) => (
+            {filteredSports.map((sport: any) => (
               <Tab.Panel key={sport.id}>
                 <div
                   className="p-4 overflow-y-auto"
                   style={{ maxHeight: "calc(100vh - 150px)" }}
                 >
-                  {resultantNews.map((news: any) => (
+                  {sortedNews.map((news: any) => (
                     <div
                       key={news.id}
                       className="flex p-4 m-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
@@ -154,7 +219,7 @@ const NewsArticle = () => {
                         <img
                           src={news.thumbnail}
                           alt="Thumbnail"
-                          className="w-24 h-24 object-cover "
+                          className="w-24 h-24 object-cover rounded"
                         />
                       </div>
                       <div className="flex-grow">
