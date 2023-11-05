@@ -32,7 +32,7 @@ const News = () => {
     <h2 className="text-xl font-bold m-2 mt-3">Trending News</h2>
     </div>
       
-      <div className="flex h-screen w-full items-stretch">
+      <div className="flex h-screen w-full ">
         <div className="w-3/4" >
           <ErrorBoundary>
             <Suspense

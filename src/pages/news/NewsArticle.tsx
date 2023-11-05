@@ -26,7 +26,7 @@ const NewsArticle = () => {
   const [selectOption, setSelectOption] = useState("");
   const [filterOption, setFilterOption] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  console.log(filterOption);
+  // console.log(filterOption);
 
   const fetchNews = () => {
     if (!authenticated) {
@@ -54,6 +54,9 @@ const NewsArticle = () => {
         setfilteredSports(sports);
       }
     }
+    if (selectedTabIndex>0 ){
+      setSelectedTabIndex(0)
+      }
   };
   useEffect(() => {
     fetchNews();
@@ -104,6 +107,7 @@ const NewsArticle = () => {
   const handleFilter = (selectedItem: any) => {
     setFilterOption(selectedItem);
   };
+  
   const sortedNews = sortNewsByFilterOption(resultantNews, filterOption);
   return (
     <>
