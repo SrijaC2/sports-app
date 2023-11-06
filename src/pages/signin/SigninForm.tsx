@@ -86,6 +86,9 @@ const SigninForm: React.FC = () => {
           Signup
         </Link>
       </p>
+      <p className="mt-2 text-center text-blue-400 hover:text-blue-600 font-medium ">
+        <Link to="/">Go back to Home</Link>
+      </p>
     </form>
   );
 };
