@@ -10,11 +10,13 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 const NewsArticle = () => {
   const State: any = useNewsState();
   const { news, isLoading, isError, errorMessage } = State;
+
   const sportsState: any = useSportsState();
   const { sports } = sportsState;
   const preferenceState: any = usePreferencesState();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [filteredSports, setfilteredSports] = useState(sports);
+  console.log("filteredSports", filteredSports);
   const [resultantNews, setResultantNews] = useState(news);
   const authenticated = !!localStorage.getItem("userData");
 
@@ -26,7 +28,6 @@ const NewsArticle = () => {
   const [selectOption, setSelectOption] = useState("");
   const [filterOption, setFilterOption] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  // console.log(filterOption);
 
   const fetchNews = () => {
     if (!authenticated) {
@@ -35,34 +36,49 @@ const NewsArticle = () => {
     } else {
       if (
         preferenceState.preferences.preferredSport &&
-        preferenceState.preferences.preferredSport.length
+        preferenceState.preferences.preferredTeams &&
+        (preferenceState.preferences.preferredSport.length ||
+          preferenceState.preferences.preferredTeams.length)
       ) {
         const userSports = preferenceState.preferences.preferredSport;
-        if (userSports.length) {
-          const filterNews = news.filter((news: any) =>
-            userSports.includes(news.sport.name)
-          );
+        const userTeams = preferenceState.preferences.preferredTeams;
+        if (userSports.length || userTeams.length) {
+          const filterNews = news.filter((news) => {
+            const sportName = news.sport.name;
+            const teamNames = Array.isArray(news.teams)
+              ? news.teams.map((team) => team.name)
+              : [];
 
+            return (
+              userSports.includes(sportName) ||
+              teamNames.some((teamName) => userTeams.includes(teamName))
+            );
+          });
           setResultantNews(filterNews);
+        }
+        console.log("Hello");
+        if (userSports.length) {
           const filterUserSports = sports.filter((sport: any) =>
             userSports.includes(sport.name)
           );
           setfilteredSports(filterUserSports);
+        } else {
+          setfilteredSports(sports);
         }
       } else {
         setResultantNews(news);
         setfilteredSports(sports);
       }
     }
-    if (selectedTabIndex>0 ){
-      setSelectedTabIndex(0)
-      }
+    if (selectedTabIndex > 0) {
+      setSelectedTabIndex(0);
+    }
   };
   useEffect(() => {
     fetchNews();
   }, [isLoading, news, authenticated, preferenceState]);
 
-  function sortNewsByFilterOption(news: any, filterOption) {
+  function sortNewsByFilterOption(news: any, filterOption: any) {
     return [...news].sort((a, b) => {
       if (filterOption === "Title") {
         return a.title.localeCompare(b.title);
@@ -73,13 +89,6 @@ const NewsArticle = () => {
       }
       return 0;
     });
-  }
-
-  if (news.length === 0 && isLoading) {
-    return <span>Loading...</span>;
-  }
-  if (isError) {
-    return <span>{errorMessage}</span>;
   }
 
   function filterNewsBySport(sportID: any) {
@@ -96,7 +105,15 @@ const NewsArticle = () => {
       fetchNews();
     } else {
       const filteredNews = filterNewsBySport(filteredSports[index - 1].id);
-      setResultantNews(filteredNews);
+      const userTeams = preferenceState.preferences.preferredTeams;
+      const filteredNewsWithUserTeams = filteredNews.filter((news) =>
+        news.teams.some((team) => userTeams.includes(team.name))
+      );
+      if (filteredNewsWithUserTeams.length > 0) {
+        setResultantNews(filteredNewsWithUserTeams);
+      } else {
+        setResultantNews(filteredNews);
+      }
     }
   };
 
@@ -107,7 +124,14 @@ const NewsArticle = () => {
   const handleFilter = (selectedItem: any) => {
     setFilterOption(selectedItem);
   };
-  
+
+  if (news.length === 0 && isLoading) {
+    return <span>Loading...</span>;
+  }
+  if (isError) {
+    return <span>{errorMessage}</span>;
+  }
+
   const sortedNews = sortNewsByFilterOption(resultantNews, filterOption);
   return (
     <>
@@ -182,9 +206,9 @@ const NewsArticle = () => {
                 style={{ maxHeight: "calc(112vh - 150px)" }}
               >
                 {sortedNews.length === 0 ? (
-                  <p className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                  <div className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                     <div className="flex-grow">No Trending News Found</div>
-                  </p>
+                  </div>
                 ) : (
                   sortedNews.map((news: any) => (
                     <div
@@ -225,18 +249,18 @@ const NewsArticle = () => {
             {filteredSports.map((sport: any) => (
               <Tab.Panel key={sport.id}>
                 <div
-                  className="p-4 overflow-y-auto"
+                  className="p-4 overflow-y-auto mb-2"
                   style={{ maxHeight: "calc(112vh - 150px)" }}
                 >
                   {sortedNews.length === 0 ? (
-                    <p className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                    <div className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
                       <div className="flex-grow">No Trending News Found</div>
-                    </p>
+                    </div>
                   ) : (
                     sortedNews.map((news: any) => (
                       <div
                         key={news.id}
-                        className="flex p-4 m-1 bg-white border border-gray-200 rounded-lg shadow hover-bg-gray-100 dark-bg-gray-800 dark-border-gray-700 dark-hover-bg-gray-700"
+                        className="flex p-4 m-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                       >
                         <div className="flex-shrink-0 pr-4">
                           <img
@@ -246,19 +270,19 @@ const NewsArticle = () => {
                           />
                         </div>
                         <div className="flex-grow">
-                          <h5 className="mb-1 text-sm text-gray-600 dark-text-gray-400 font-medium">
+                          <h5 className="mb-1 text-sm text-gray-600 dark:text-gray-400 font-medium">
                             {news.sport.name}
                           </h5>
                           <h2 className="text-lg font-bold">{news.title}</h2>
-                          <p className="text-gray-600 dark-text-gray-400 text-sm">
+                          <p className="text-gray-600 dark:text-gray-400 text-sm">
                             {news.summary}
                           </p>
                           <div className="flex justify-between">
-                            <p className="text-sm text-gray-500 dark-text-gray-300">
+                            <p className="text-sm text-gray-500 dark:text-gray-300">
                               {formattedDate(news.date)}
                             </p>
                             <Link to={`/articles/${news.id}`}>
-                              <h5 className="text-sm text-gray-500 dark-text-gray-300 hover-text-blue-400">
+                              <h5 className="text-sm text-gray-500 dark:text-gray-300 hover:text-blue-400">
                                 Read more...
                               </h5>
                             </Link>

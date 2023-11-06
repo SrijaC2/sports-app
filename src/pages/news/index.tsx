@@ -1,4 +1,4 @@
-import { useEffect, Suspense } from "react";
+import React, { useEffect, Suspense } from "react";
 import { usePreferencesDispatch } from "../../context/users/context";
 import { fetchUserPreferences } from "../../context/users/actions";
 import { useSportsDispatch } from "../../context/sports/context";
@@ -7,8 +7,10 @@ import { useTeamsDispatch } from "../../context/teams/context";
 import { fetchTeams } from "../../context/teams/actions";
 import { useNewsDispatch } from "../../context/news/context";
 import { fetchNews } from "../../context/news/actions";
-import NewsArticle from "./NewsArticle";
-import Favourites from "./Favourites";
+// import NewsArticle from "./NewsArticle";
+const NewsArticle = React.lazy(() => import("./NewsArticle"));
+// import Favourites from "./Favourites";
+const Favourites = React.lazy(() => import("./Favourites"));
 import { Outlet } from "react-router-dom";
 import ErrorBoundary from "../../components/ErrorBoundary";
 
@@ -43,7 +45,13 @@ const News = () => {
           </ErrorBoundary>
         </div>
         <div className="w-1/4 ml-2 flex">
-          <Favourites />
+        <ErrorBoundary>
+            <Suspense
+              fallback={<div className="suspense-loading">Loading...</div>}
+            >
+              <Favourites />
+            </Suspense>
+          </ErrorBoundary>
         </div>
       </div>
       <Outlet />

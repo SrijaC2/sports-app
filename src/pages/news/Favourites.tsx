@@ -17,7 +17,7 @@ export default function Favourites() {
   const preferenceState: any = usePreferencesState();
   const [filteredSports, setfilteredSports] = useState(sports);
   // console.log("filteredSports",filteredSports)
-  const [filteredTeams, setfilteredTeams] = useState(sports);
+  const [filteredTeams, setfilteredTeams] = useState(teams);
   // console.log("filteredTeams",filteredTeams)
   const [resultantNews, setResultantNews] = useState(news);
   const authenticated = !!localStorage.getItem("userData");
@@ -84,15 +84,15 @@ export default function Favourites() {
   const filteredNews = resultantNews.filter((newsItem) => {
     const sportMatched = selectedSport
       ? newsItem.sport.name === selectedSport
-      : true; // true if selectedSport is empty or null
+      : true; 
 
     const teamMatched = selectedTeam
       ? newsItem.teams.some((team) => team.name === selectedTeam)
-      : true; // true if selectedTeam is empty or null
+      : true;
 
     return sportMatched && teamMatched;
   });
-  console.log("filteredNews", filteredNews);
+
 
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
@@ -101,13 +101,14 @@ export default function Favourites() {
     return <span>{errorMessage}</span>;
   }
 
+  console.log("filteredTeams",filteredTeams)
   const SortedTeams = selectedSport
     ? filteredTeams.filter((team) => team.plays === selectedSport)
     : filteredTeams;
 
   return (
     <div className="bg-gradient-to-br from-blue-500 to-purple-500 text-white p-3 rounded dark:bg-gradient-to-b dark:from-slate-700 dark:to-zinc-800">
-      <div className="text-2xl font-semibold mb-4">Favourites</div>
+      <div className="text-xl font-semibold mb-4">Favourites</div>
 
       <div className="mb-4">
         <Listbox value={selectedSport} onChange={setSelectedSport}>
@@ -246,11 +247,11 @@ export default function Favourites() {
       </div>
       <div className="mt-2 overflow-y-auto" style={{ maxHeight: "calc(97vh - 150px)" }}>
   {filteredNews.length === 0 ? (
-    <p className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+    <div className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
       <div className="flex-grow">
             No News Article Found
       </div>
-    </p>
+    </div>
   ) : (
     filteredNews.map((news: any) => (
       <div
