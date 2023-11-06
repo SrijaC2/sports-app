@@ -16,3 +16,5 @@ Features:
 * Preferences screen for sport and team selection.
 * Filter news based on user preferences.
 * Users can see favorite news articles based on selected sport and team.
+
+## Screenshots of application
