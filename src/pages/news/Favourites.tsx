@@ -101,7 +101,7 @@ export default function Favourites() {
     return <span>{errorMessage}</span>;
   }
 
-  console.log("filteredTeams",filteredTeams)
+  // console.log("filteredTeams",filteredTeams)
   const SortedTeams = selectedSport
     ? filteredTeams.filter((team) => team.plays === selectedSport)
     : filteredTeams;

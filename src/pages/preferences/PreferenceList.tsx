@@ -7,9 +7,7 @@ import { useSportsState } from "../../context/sports/context";
 import { useTeamsState } from "../../context/teams/context";
 import { Sport } from "../../context/sports/reducer";
 import { Team } from "../../context/teams/reducer";
-import {
-  usePreferencesDispatch,
-} from "../../context/users/context";
+import { usePreferencesDispatch } from "../../context/users/context";
 import { setUserPreferences } from "../../context/users/actions";
 
 import {
@@ -66,7 +64,7 @@ const PreferencesL = () => {
     }
   }, [isLoggedIn]);
 
-  const handleSportClick = (sportName:string) => {
+  const handleSportClick = (sportName: string) => {
     const newPreferredSports = [...preferances.preferredSport];
     const index = newPreferredSports.indexOf(sportName);
 
@@ -142,14 +140,14 @@ const PreferencesL = () => {
                     <div className="flex items-center justify-between">
                       <Dialog.Title
                         as="h3"
-                        className="text-lg font-medium leading-6 text-gray-900"
+                        className="text-xl font-medium leading-6 text-black"
                       >
                         Preferences
                       </Dialog.Title>
                       <button
                         type="button"
                         onClick={closeModal}
-                        className="rounded-full bg-white p-1 ml-3 text-gray-400 hover:text-blue-600"
+                        className="rounded-full bg-white p-1 ml-3 text-gray-800 hover:text-blue-600"
                       >
                         <XMarkIcon className="h-7 w-7" aria-hidden="true" />
                       </button>
@@ -158,7 +156,7 @@ const PreferencesL = () => {
                     <div className="mt-2">
                       <form onSubmit={handleSubmit(onSubmit)}>
                         {error && <span>{error}</span>}
-                        <h2 className="border-b border-gray-600 dark:border-white pb-2">
+                        <h2 className="border-b border-gray-600 dark:border-white pb-2 font-medium">
                           Favorite Sports
                         </h2>
                         <div>
@@ -190,7 +188,7 @@ const PreferencesL = () => {
                               ))}
                           </div>
                         </div>
-                        <h2 className="border-b border-gray-600 dark:border-white pb-2">
+                        <h2 className="border-b border-gray-600 dark:border-white pb-2 font-medium">
                           Favorite Teams
                         </h2>
                         <div>
@@ -222,7 +220,7 @@ const PreferencesL = () => {
                         </div>
                         <button
                           type="submit"
-                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 mr-2 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                          className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-4 py-3 mr-2  ml-3 text-sm font-medium text-white hover:bg-blue-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         >
                           Submit
                         </button>

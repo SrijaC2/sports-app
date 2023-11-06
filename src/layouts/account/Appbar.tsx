@@ -21,7 +21,7 @@ const Appbar = () => {
 
   useEffect(() => {
     if (authenticated) {
-      setUserNavigation([{ name: "Sign out", href: "/logout" }]);
+      setUserNavigation([{ name: "Change Password", href: "/changePwd" },{ name: "Sign out", href: "/logout" }]);
     } else {
       setUserNavigation([
         { name: "Sign in", href: "/signin" },
@@ -53,6 +53,7 @@ const Appbar = () => {
                 </div>
               </div>
 
+             
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
                   <Switch

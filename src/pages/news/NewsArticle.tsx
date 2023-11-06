@@ -16,7 +16,7 @@ const NewsArticle = () => {
   const preferenceState: any = usePreferencesState();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [filteredSports, setfilteredSports] = useState(sports);
-  console.log("filteredSports", filteredSports);
+  // console.log("filteredSports", filteredSports);
   const [resultantNews, setResultantNews] = useState(news);
   const authenticated = !!localStorage.getItem("userData");
 
@@ -56,7 +56,7 @@ const NewsArticle = () => {
           });
           setResultantNews(filterNews);
         }
-        console.log("Hello");
+
         if (userSports.length) {
           const filterUserSports = sports.filter((sport: any) =>
             userSports.includes(sport.name)
@@ -215,7 +215,7 @@ const NewsArticle = () => {
                       key={news.id}
                       className="flex p-4 m-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                     >
-                      <div className="flex-shrink-0 pr-4">
+                      <div className="flex-shrink-0 pr-4 flex items-center">
                         <img
                           src={news.thumbnail}
                           alt="Thumbnail"
@@ -262,7 +262,7 @@ const NewsArticle = () => {
                         key={news.id}
                         className="flex p-4 m-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
                       >
-                        <div className="flex-shrink-0 pr-4">
+                        <div className="flex-shrink-0 pr-4 flex items-center">
                           <img
                             src={news.thumbnail}
                             alt="Thumbnail"
