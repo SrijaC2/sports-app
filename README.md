@@ -18,4 +18,6 @@ Features:
 * Users can see favorite news articles based on selected sport and team.
 
 ## Screenshots of application
-![Sign Up Page](https://drive.google.com/uc?export=view&id=1XHQnWrhdC1XY8aBwbMO6BBFgxECCK7bK)
+![Screenshot of a Sports Scheduler](https://drive.google.com/uc?export=view&id=14SJxNUi7Gj67gwNyiPB1V8Jlcl4pH9Ih)
+![Screenshot of a Session](https://drive.google.com/uc?export=view&id=1ZOv9x9zRuBejRtw5GOeDpRyNjW-DODYq)
+![Sreenshot of creating a session](https://drive.google.com/uc?export=view&id=1DR1uLhl6Pfv8xxAISIWwKf6kH6Yp1VDY)
