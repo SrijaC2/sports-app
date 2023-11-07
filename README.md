@@ -18,4 +18,4 @@ Features:
 * Users can see favorite news articles based on selected sport and team.
 
 ## Screenshots of application
-![Sign Up Page](https://drive.google.com/uc?export=view&id=1OzATR6FpUq88-hDBLwKmIqKp3fy-2Kwl)
+![Sign Up Page](https://drive.google.com/uc?export=view&id=1XHQnWrhdC1XY8aBwbMO6BBFgxECCK7bK)
