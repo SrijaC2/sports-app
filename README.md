@@ -14,6 +14,8 @@ Features:
 * Users can change their password.
 * Detailed news article view with images and content.
 * Preferences screen for sport and team selection.
+* Customizing the theme to light or dark.
+* Changing the user password.
 * Filter news based on user preferences.
 * Users can see favorite news articles based on selected sport and team.
 
@@ -29,3 +31,7 @@ Features:
 
 **Selecting Preferenes**
 ![Sreenshot of Preferencees](https://drive.google.com/uc?export=view&id=1lqUE9Z5sw8AlD75hvZUiBflwQDu9N_st)
+
+Link to the live URL- https://playful-tanuki-f61876.netlify.app
+
+Link to the video demo- https://drive.google.com/file/d/1immBoXSYfiJBGPVU1YZGXr5C9ck4WXyh/view?usp=sharing

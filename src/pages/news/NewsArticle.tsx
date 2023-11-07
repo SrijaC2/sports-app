@@ -217,7 +217,7 @@ const NewsArticle = () => {
                         <img
                           src={news.thumbnail}
                           alt="Thumbnail"
-                          className="w-24 h-24 object-cover rounded"
+                          className="w-24 h-24 object-cover rounded"  loading="lazy"
                         />
                       </div>
                       <div className="flex-grow">
@@ -225,7 +225,7 @@ const NewsArticle = () => {
                           {news.sport.name}
                         </h5>
                         <h2 className="text-lg font-bold">{news.title}</h2>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
+                        <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
                           {news.summary}
                         </p>
                         <div className="flex justify-between">
@@ -264,7 +264,7 @@ const NewsArticle = () => {
                           <img
                             src={news.thumbnail}
                             alt="Thumbnail"
-                            className="w-24 h-24 object-cover rounded"
+                            className="w-24 h-24 object-cover rounded" loading="lazy"
                           />
                         </div>
                         <div className="flex-grow">
@@ -272,7 +272,7 @@ const NewsArticle = () => {
                             {news.sport.name}
                           </h5>
                           <h2 className="text-lg font-bold">{news.title}</h2>
-                          <p className="text-gray-600 dark:text-gray-400 text-sm">
+                          <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-2">
                             {news.summary}
                           </p>
                           <div className="flex justify-between">
