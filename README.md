@@ -21,8 +21,11 @@ Features:
 **SignUp Page**
 ![Screenshot of a SignUp page](https://drive.google.com/uc?export=view&id=1XHQnWrhdC1XY8aBwbMO6BBFgxECCK7bK)
 
+**SignIn Page**
+![Screenshot of a SignIn page](https://drive.google.com/uc?export=view&id=1y614j4stEyENvAIJP7OUYiUKfNqp7oP5)
+
 **Home Page**
 ![Screenshot of a Home Page](https://drive.google.com/uc?export=view&id=1AJaGqfbp2exypN_jNfYbzachY0NBt01W)
 
 **Selecting Preferenes**
-![Sreenshot of Preferencees](https://drive.google.com/uc?export=view&id=11lqUE9Z5sw8AlD75hvZUiBflwQDu9N_st)
+![Sreenshot of Preferencees](https://drive.google.com/uc?export=view&id=1lqUE9Z5sw8AlD75hvZUiBflwQDu9N_st)
