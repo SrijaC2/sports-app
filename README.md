@@ -18,3 +18,4 @@ Features:
 * Users can see favorite news articles based on selected sport and team.
 
 ## Screenshots of application
+![Sign In Page](/assets/images/SignIn.png)
