@@ -105,7 +105,10 @@ const SignupForm: React.FC = () => {
       </button>
       <p className="mt-2 text-center text-white-900 ">
         Already have an account?
-        <Link className="font-bold text-blue-600 hover:text-blue-800 underline ml-2" to="/signin">
+        <Link
+          className="font-bold text-blue-600 hover:text-blue-800 underline ml-2"
+          to="/signin"
+        >
           Signin
         </Link>
       </p>

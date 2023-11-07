@@ -3,8 +3,6 @@ import { fetchSports } from "../../context/sports/actions";
 import { fetchTeams } from "../../context/teams/actions";
 import { useSportsDispatch } from "../../context/sports/context";
 import { useTeamsDispatch } from "../../context/teams/context";
-// import PreferencesL from "./PreferenceList";
-// import PreferencesProvider from "../../context/users/context"
 import { usePreferencesDispatch } from "../../context/users/context";
 import { fetchUserPreferences } from "../../context/users/actions";
 const PreferencesL = React.lazy(() => import("./PreferenceList"));

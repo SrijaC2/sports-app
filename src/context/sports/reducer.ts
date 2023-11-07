@@ -1,9 +1,9 @@
-export interface Sport{
-    id: number;
-    name: string;
+export interface Sport {
+  id: number;
+  name: string;
 }
 export interface SportsState {
-  sports: Sport[]; 
+  sports: Sport[];
   isLoading: boolean;
   isError: boolean;
   errorMessage: string;
@@ -12,7 +12,7 @@ export interface SportsState {
 export type SportsActions =
   | { type: "FETCH_SPORTS_REQUEST" }
   | { type: "FETCH_SPORTS_SUCCESS"; payload: Sport[] }
-  | { type: "FETCH_SPORTS_FAILURE"; payload: string }
+  | { type: "FETCH_SPORTS_FAILURE"; payload: string };
 
 export const initialState: SportsState = {
   sports: [],

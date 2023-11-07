@@ -1,13 +1,10 @@
-// preferences.ts
-
 export interface UserPreferences {
   preferredSport: string[];
   preferredTeams: string[];
 }
 
 export interface PreferencesState {
-  // preferences: UserPreferences | null;
-  preferences: UserPreferences ;
+  preferences: UserPreferences;
   isLoading: boolean;
   isError: boolean;
   errorMessage: string;
@@ -22,9 +19,9 @@ export type PreferencesActions =
   | { type: "SET_PREFERENCES_FAILURE"; payload: string };
 
 export const initialPreferencesState: PreferencesState = {
-  preferences:  {
+  preferences: {
     preferredSport: [],
-    preferredTeams: []
+    preferredTeams: [],
   },
   isLoading: false,
   isError: false,

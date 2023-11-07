@@ -34,12 +34,15 @@ const ChangePasswordForm: React.FC = () => {
       });
 
       if (response.ok) {
-        navigate("/"); 
+        navigate("/");
         setError(null);
         console.log("Password changed successfully");
       } else {
         const responseData = await response.json();
-        if (responseData.errors && responseData.errors.includes("Invalid auth token")) {
+        if (
+          responseData.errors &&
+          responseData.errors.includes("Invalid auth token")
+        ) {
           throw new Error("Invalid auth token");
         } else {
           throw new Error("Failed to change password");
@@ -73,7 +76,9 @@ const ChangePasswordForm: React.FC = () => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-black font-semibold mb-2">New Password:</label>
+        <label className="block text-black font-semibold mb-2">
+          New Password:
+        </label>
         <input
           type="password"
           id="newPassword"

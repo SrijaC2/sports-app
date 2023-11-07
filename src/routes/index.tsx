@@ -7,7 +7,7 @@ import Notfound from "../pages/Notfound";
 import LiveGames from "../pages/matches";
 import News from "../pages/news";
 import SingleArticle from "../pages/news/SingleArticle";
-import ChangePwd from "../pages/changePwd"
+import ChangePwd from "../pages/changePwd";
 
 const router = createBrowserRouter([
   {

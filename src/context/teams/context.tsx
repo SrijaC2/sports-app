@@ -1,16 +1,15 @@
 import React, { createContext, useContext, useReducer } from "react";
-import {
-  teamReducer,
-  initialState,
-  TeamsState,
-  TeamsActions,
-} from "./reducer";
+import { teamReducer, initialState, TeamsState, TeamsActions } from "./reducer";
 
 const TeamsStateContext = createContext<TeamsState | undefined>(undefined);
 type TeamsDispatch = React.Dispatch<TeamsActions>;
-const TeamsDispatchContext = createContext<TeamsDispatch | undefined>(undefined);
+const TeamsDispatchContext = createContext<TeamsDispatch | undefined>(
+  undefined
+);
 
-export const TeamsProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const TeamsProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(teamReducer, initialState);
   return (
     <TeamsStateContext.Provider value={state}>

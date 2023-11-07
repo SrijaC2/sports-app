@@ -10,13 +10,11 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 const NewsArticle = () => {
   const State: any = useNewsState();
   const { news, isLoading, isError, errorMessage } = State;
-
   const sportsState: any = useSportsState();
   const { sports } = sportsState;
   const preferenceState: any = usePreferencesState();
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [filteredSports, setfilteredSports] = useState(sports);
-  // console.log("filteredSports", filteredSports);
   const [resultantNews, setResultantNews] = useState(news);
   const authenticated = !!localStorage.getItem("userData");
 
@@ -43,15 +41,15 @@ const NewsArticle = () => {
         const userSports = preferenceState.preferences.preferredSport;
         const userTeams = preferenceState.preferences.preferredTeams;
         if (userSports.length || userTeams.length) {
-          const filterNews = news.filter((news) => {
+          const filterNews = news.filter((news: any) => {
             const sportName = news.sport.name;
             const teamNames = Array.isArray(news.teams)
-              ? news.teams.map((team) => team.name)
+              ? news.teams.map((team: any) => team.name)
               : [];
 
             return (
               userSports.includes(sportName) ||
-              teamNames.some((teamName) => userTeams.includes(teamName))
+              teamNames.some((teamName: any) => userTeams.includes(teamName))
             );
           });
           setResultantNews(filterNews);
@@ -106,8 +104,8 @@ const NewsArticle = () => {
     } else {
       const filteredNews = filterNewsBySport(filteredSports[index - 1].id);
       const userTeams = preferenceState.preferences.preferredTeams;
-      const filteredNewsWithUserTeams = filteredNews.filter((news) =>
-        news.teams.some((team) => userTeams.includes(team.name))
+      const filteredNewsWithUserTeams = filteredNews.filter((news: any) =>
+        news.teams.some((team: any) => userTeams.includes(team.name))
       );
       if (filteredNewsWithUserTeams.length > 0) {
         setResultantNews(filteredNewsWithUserTeams);

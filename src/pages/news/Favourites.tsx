@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Fragment, useState, useEffect } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
@@ -16,9 +17,9 @@ export default function Favourites() {
   const { teams } = teamsState;
   const preferenceState: any = usePreferencesState();
   const [filteredSports, setfilteredSports] = useState(sports);
-  // console.log("filteredSports",filteredSports)
+
   const [filteredTeams, setfilteredTeams] = useState(teams);
-  // console.log("filteredTeams",filteredTeams)
+
   const [resultantNews, setResultantNews] = useState(news);
   const authenticated = !!localStorage.getItem("userData");
   const [selectedSport, setSelectedSport] = useState("");
@@ -57,15 +58,15 @@ export default function Favourites() {
         }
 
         if (userSports.length || userTeams.length) {
-          const filterNews = news.filter((news) => {
+          const filterNews = news.filter((news: any) => {
             const sportName = news.sport.name;
             const teamNames = Array.isArray(news.teams)
-              ? news.teams.map((team) => team.name)
+              ? news.teams.map((team: any) => team.name)
               : [];
 
             return (
               userSports.includes(sportName) ||
-              teamNames.some((teamName) => userTeams.includes(teamName))
+              teamNames.some((teamName: any) => userTeams.includes(teamName))
             );
           });
           setResultantNews(filterNews);
@@ -81,18 +82,17 @@ export default function Favourites() {
     fetchFavourites();
   }, [isLoading, news, authenticated, preferenceState]);
 
-  const filteredNews = resultantNews.filter((newsItem) => {
+  const filteredNews = resultantNews.filter((newsItem: any) => {
     const sportMatched = selectedSport
       ? newsItem.sport.name === selectedSport
-      : true; 
+      : true;
 
     const teamMatched = selectedTeam
-      ? newsItem.teams.some((team) => team.name === selectedTeam)
+      ? newsItem.teams.some((team: any) => team.name === selectedTeam)
       : true;
 
     return sportMatched && teamMatched;
   });
-
 
   if (news.length === 0 && isLoading) {
     return <span>Loading...</span>;
@@ -101,10 +101,12 @@ export default function Favourites() {
     return <span>{errorMessage}</span>;
   }
 
-  // console.log("filteredTeams",filteredTeams)
-  const SortedTeams = selectedSport
-    ? filteredTeams.filter((team) => team.plays === selectedSport)
+  let SortedTeams = selectedSport
+    ? filteredTeams.filter((team: any) => team.plays === selectedSport)
     : filteredTeams;
+  if (SortedTeams.length === 0) {
+    SortedTeams = teams.filter((team: any) => team.plays === selectedSport);
+  }
 
   return (
     <div className="bg-gradient-to-br from-blue-500 to-purple-500 text-white p-3 rounded dark:bg-gradient-to-b dark:from-slate-700 dark:to-zinc-800">
@@ -137,7 +139,7 @@ export default function Favourites() {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                    {filteredSports.map((sport, id) => (
+                    {filteredSports.map((sport: any, id: any) => (
                       <Listbox.Option
                         key={id}
                         className={({ active }) =>
@@ -205,7 +207,7 @@ export default function Favourites() {
                   leaveTo="transform opacity-0 scale-95"
                 >
                   <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                    {SortedTeams.map((team, id) => (
+                    {SortedTeams.map((team: any, id: any) => (
                       <Listbox.Option
                         key={id}
                         className={({ active }) =>
@@ -245,38 +247,39 @@ export default function Favourites() {
           )}
         </Listbox>
       </div>
-      <div className="mt-2 overflow-y-auto" style={{ maxHeight: "calc(97vh - 150px)" }}>
-  {filteredNews.length === 0 ? (
-    <div className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-      <div className="flex-grow">
-            No News Article Found
-      </div>
-    </div>
-  ) : (
-    filteredNews.map((news: any) => (
       <div
-        key={news.id}
-        className="flex p-3 m-1 mb-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+        className="mt-2 overflow-y-auto"
+        style={{ maxHeight: "calc(97vh - 150px)" }}
       >
-        <div className="flex-grow">
-          <h2 className="text-black font-bold text-lg dark:text-white mb-2 ">
-            {news.title}
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 text-sm mb-2 line-clamp-3">
-            {news.summary}
-          </p>
-          <div className="text-center">
-            <Link to={`/articles/${news.id}`}>
-              <button className="w-full dark:text-gray-800 font-medium dark:hover:bg-zinc-100 text-white dark:bg-white bg-blue-900 hover:bg-blue-700 p-2 rounded-md text-sm focus:outline-none">
-                Read more
-              </button>
-            </Link>
+        {filteredNews.length === 0 ? (
+          <div className="flex p-4 m-1 mb-2 bg-slate-400 dark:text-white text-black font-medium border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+            <div className="flex-grow">No News Article Found</div>
           </div>
-        </div>
+        ) : (
+          filteredNews.map((news: any) => (
+            <div
+              key={news.id}
+              className="flex p-3 m-1 mb-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+            >
+              <div className="flex-grow">
+                <h2 className="text-black font-bold text-lg dark:text-white mb-2 ">
+                  {news.title}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-400 text-sm mb-2 line-clamp-3">
+                  {news.summary}
+                </p>
+                <div className="text-center">
+                  <Link to={`/articles/${news.id}`}>
+                    <button className="w-full dark:text-gray-800 font-medium dark:hover:bg-zinc-100 text-white dark:bg-white bg-blue-900 hover:bg-blue-700 p-2 rounded-md text-sm focus:outline-none">
+                      Read more
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
       </div>
-    ))
-  )}
-</div>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import { API_ENDPOINT } from "../../config/constants";
 
-export const fetchNews = async (dispatch :any ) => {
+export const fetchNews = async (dispatch: any) => {
   try {
     dispatch({ type: "FETCH_NEWS_REQUEST" });
     const response = await fetch(`${API_ENDPOINT}/articles`, {

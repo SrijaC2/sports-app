@@ -7,9 +7,7 @@ import { useTeamsDispatch } from "../../context/teams/context";
 import { fetchTeams } from "../../context/teams/actions";
 import { useNewsDispatch } from "../../context/news/context";
 import { fetchNews } from "../../context/news/actions";
-// import NewsArticle from "./NewsArticle";
 const NewsArticle = React.lazy(() => import("./NewsArticle"));
-// import Favourites from "./Favourites";
 const Favourites = React.lazy(() => import("./Favourites"));
 import { Outlet } from "react-router-dom";
 import ErrorBoundary from "../../components/ErrorBoundary";
@@ -30,12 +28,12 @@ const News = () => {
   }, [dispatchSports, dispatchTeams, disptachPreferences, disptachNews]);
   return (
     <>
-    <div>
-    <h2 className="text-xl font-bold m-2 mt-3">Trending News</h2>
-    </div>
-      
+      <div>
+        <h2 className="text-xl font-bold m-2 mt-3">Trending News</h2>
+      </div>
+
       <div className="flex h-screen w-full ">
-        <div className="w-3/4" >
+        <div className="w-3/4">
           <ErrorBoundary>
             <Suspense
               fallback={<div className="suspense-loading">Loading...</div>}
@@ -45,7 +43,7 @@ const News = () => {
           </ErrorBoundary>
         </div>
         <div className="w-1/4 ml-2 flex">
-        <ErrorBoundary>
+          <ErrorBoundary>
             <Suspense
               fallback={<div className="suspense-loading">Loading...</div>}
             >

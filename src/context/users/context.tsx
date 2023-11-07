@@ -10,14 +10,17 @@ const PreferencesStateContext = createContext<PreferencesState | undefined>(
   undefined
 );
 type PreferencesDispatch = React.Dispatch<PreferencesActions>;
-const PreferencesDispatchContext = createContext<PreferencesDispatch | undefined>(
-  undefined
-);
+const PreferencesDispatchContext = createContext<
+  PreferencesDispatch | undefined
+>(undefined);
 
 export const PreferencesProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const [state, dispatch] = useReducer(preferencesReducer, initialPreferencesState);
+  const [state, dispatch] = useReducer(
+    preferencesReducer,
+    initialPreferencesState
+  );
   return (
     <PreferencesStateContext.Provider value={state}>
       <PreferencesDispatchContext.Provider value={dispatch}>
@@ -28,4 +31,5 @@ export const PreferencesProvider: React.FC<React.PropsWithChildren> = ({
 };
 
 export const usePreferencesState = () => useContext(PreferencesStateContext);
-export const usePreferencesDispatch = () => useContext(PreferencesDispatchContext);
+export const usePreferencesDispatch = () =>
+  useContext(PreferencesDispatchContext);

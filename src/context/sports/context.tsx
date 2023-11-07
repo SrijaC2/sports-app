@@ -8,9 +8,13 @@ import {
 
 const SportsStateContext = createContext<SportsState | undefined>(undefined);
 type SportsDispatch = React.Dispatch<SportsActions>;
-const SportsDispatchContext = createContext<SportsDispatch | undefined>(undefined);
+const SportsDispatchContext = createContext<SportsDispatch | undefined>(
+  undefined
+);
 
-export const SportsProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const SportsProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(sportsReducer, initialState);
   return (
     <SportsStateContext.Provider value={state}>

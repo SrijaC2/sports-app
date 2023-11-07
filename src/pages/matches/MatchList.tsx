@@ -29,7 +29,7 @@ export default function MatchList() {
 
         if (userSports.length || userTeams.length) {
           const filterGames = matches.filter(
-            (match:any) =>
+            (match: any) =>
               match.isRunning &&
               (userSports.includes(match.sportName) ||
                 userTeams.includes(match.teams[0].name) ||

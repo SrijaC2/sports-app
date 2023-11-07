@@ -1,16 +1,13 @@
 import React, { createContext, useContext, useReducer } from "react";
-import {
-    newsReducer,
-  initialState,
-  NewsState,
-  NewsActions,
-} from "./reducer";
+import { newsReducer, initialState, NewsState, NewsActions } from "./reducer";
 
 const NewsStateContext = createContext<NewsState | undefined>(undefined);
 type NewsDispatch = React.Dispatch<NewsActions>;
 const NewsDispatchContext = createContext<NewsDispatch | undefined>(undefined);
 
-export const NewsProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
+export const NewsProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [state, dispatch] = useReducer(newsReducer, initialState);
   return (
     <NewsStateContext.Provider value={state}>
