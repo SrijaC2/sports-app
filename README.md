@@ -18,4 +18,4 @@ Features:
 * Users can see favorite news articles based on selected sport and team.
 
 ## Screenshots of application
-![Sign In Page](https://github.com/SrijaC2/sports-app/blob/main/src/assets/images/SignIn.png)
+![Sign In Page](/src/assets/images/SignIn.png)
